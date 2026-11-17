@@ -15,11 +15,12 @@ version="$(curl -fsSL \
 copy() {
   local src="$1" dest="$2"
   echo "sync $src -> $dest"
-  regctl image copy \
+  regctl index create \
+    --ref "$src" \
     --platform linux/amd64 \
     --platform linux/arm64 \
     --platform linux/arm/v7 \
-    "$src" "$dest"
+    "$dest"
 }
 
 copy "ghcr.io/henrygd/beszel/beszel:edge" \
