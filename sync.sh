@@ -4,7 +4,7 @@ set -euo pipefail
 registry="${ALIYUN_REGISTRY:?}"
 namespace="${ALIYUN_NAMESPACE:?}"
 
-skopeo login -u "$ALIYUN_USERNAME" -p "$ALIYUN_PASSWORD" "$registry"
+regctl registry login "$registry" -u "$ALIYUN_USERNAME" -p "$ALIYUN_PASSWORD"
 
 version="$(curl -fsSL \
   -H "Authorization: Bearer ${GITHUB_TOKEN}" \
@@ -15,7 +15,11 @@ version="$(curl -fsSL \
 copy() {
   local src="$1" dest="$2"
   echo "sync $src -> $dest"
-  skopeo copy --all "docker://$src" "docker://$dest"
+  regctl image copy \
+    --platform linux/amd64 \
+    --platform linux/arm64 \
+    --platform linux/arm/v7 \
+    "$src" "$dest"
 }
 
 copy "ghcr.io/henrygd/beszel/beszel:edge" \
