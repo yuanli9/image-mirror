@@ -15,4 +15,5 @@ jobs:
           ALIYUN_NAMESPACE: ${{ secrets.ALIYUN_NAMESPACE }}
           ALIYUN_USERNAME: ${{ secrets.ALIYUN_USERNAME }}
           ALIYUN_PASSWORD: ${{ secrets.ALIYUN_PASSWORD }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: bash sync.sh
