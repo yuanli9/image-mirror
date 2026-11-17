@@ -6,7 +6,10 @@ namespace="${ALIYUN_NAMESPACE:?}"
 
 skopeo login -u "$ALIYUN_USERNAME" -p "$ALIYUN_PASSWORD" "$registry"
 
-version="$(curl -fsSL https://api.github.com/repos/henrygd/beszel/releases/latest \
+version="$(curl -fsSL \
+  -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/repos/henrygd/beszel/releases/latest \
   | sed -n 's/.*"tag_name": *"v\?\([^"]*\)".*/\1/p')"
 
 copy() {
